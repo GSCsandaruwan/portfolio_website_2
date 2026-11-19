@@ -75,7 +75,7 @@ export default function About() {
               <p>
                 I&apos;m an Information Technology undergraduate at the{' '}
                 <span className="text-[#F5F5F5] font-medium">
-                  University of Ruhuna
+                  University of 
                 </span>
                 . I&apos;m passionate about building practical software solutions that solve
                 real-world problems.
