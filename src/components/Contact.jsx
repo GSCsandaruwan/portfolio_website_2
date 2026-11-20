@@ -31,7 +31,7 @@ const contactInfo = [
     icon: GithubIcon,
     label: 'GitHub',
     value: 'github.com/champikasandaruwan14-boop',
-    href: 'https://github.com/champikasandaruwan14-boop',
+    href: 'https://github.com/GSCsandaruwan/portfolio_website_2',
   },
   {
     icon: LinkedinIcon,

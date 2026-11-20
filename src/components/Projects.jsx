@@ -184,7 +184,7 @@ export default function Projects() {
           className="mt-6 flex items-center justify-center overflow-visible relative z-20"
         >
           <VenomButton
-            href="https://github.com/champikasandaruwan14-boop"
+            href="https://github.com/GSCsandaruwan/portfolio_website_2"
             label="View more on GitHub"
             className="w-full max-w-2xl mx-auto overflow-visible"
             height={200}
