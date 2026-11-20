@@ -2,13 +2,13 @@ import { motion } from 'framer-motion'
 import { GraduationCap, BookOpen, Calendar, Code2 } from 'lucide-react'
 
 const educationData = {
-  degree: 'Bachelor of Information Technology', // ← Editable
-  university: 'University of Ruhuna',            // ← Editable
-  faculty: 'Faculty of Humanities and Social Sciences', // ← Editable
-  startYear: '2022',                             // ← Editable
-  expectedGrad: '2026',                          // ← Editable
+  degree: 'Bachelor of Information Technology',
+  university: 'University of Ruhuna',
+  faculty: 'Faculty of Humanities and Social Sciences',
+  startYear: '2022',
+  expectedGrad: '2026',
   status: 'Undergraduate (In Progress)',
-  coursework: [                                  // ← Editable list
+  coursework: [
     'Data Structures & Algorithms',
     'Object-Oriented Programming',
     'Database Management Systems',
@@ -51,18 +51,18 @@ const activitiesData = [
 ]
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 28 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.1, ease: 'easeOut' },
+    transition: { duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
   }),
 }
 
 export default function Education() {
   return (
-    <section id="experience" className="section-padding bg-[#08090D]">
-      <div className="container-custom">
+    <section id="experience" className="section-padding bg-[#08090D] relative overflow-hidden">
+      <div className="container-custom relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -97,7 +97,9 @@ export default function Education() {
               viewport={{ once: true, margin: '-60px' }}
               variants={fadeUp}
               custom={2}
-              className="glass-card rounded-2xl p-6 border border-white/[0.08] hover:border-[#B6FF5C]/20 transition-all duration-300"
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3 }}
+              className="glass-card rounded-2xl p-6 border border-white/[0.08] hover:border-[#B6FF5C]/30 hover:shadow-[0_10px_30px_rgba(0,0,0,0.4),0_0_20px_rgba(182,255,92,0.1)] transition-all duration-300"
             >
               {/* Year badge */}
               <div className="flex items-center justify-between mb-5">
@@ -105,19 +107,19 @@ export default function Education() {
                   <Calendar size={12} />
                   {educationData.startYear} — {educationData.expectedGrad}
                 </span>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-[#B6FF5C]/8 border border-[#B6FF5C]/20 text-[#B6FF5C] font-medium">
+                <span className="text-xs px-2.5 py-1 rounded-full bg-[#B6FF5C]/8 border border-[#B6FF5C]/20 text-[#B6FF5C] font-semibold">
                   In Progress
                 </span>
               </div>
 
               {/* Institution */}
               <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-xl bg-[#B6FF5C]/8 border border-[#B6FF5C]/20 flex items-center justify-center flex-shrink-0">
-                  <GraduationCap size={18} className="text-[#B6FF5C]" />
+                <div className="w-12 h-12 rounded-xl bg-[#B6FF5C]/8 border border-[#B6FF5C]/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <GraduationCap size={20} className="text-[#B6FF5C]" />
                 </div>
                 <div>
-                  <h4 className="text-[#F5F5F5] font-bold text-base">{educationData.university}</h4>
-                  <p className="text-[#A1A1AA] text-sm">{educationData.faculty}</p>
+                  <h4 className="text-[#F5F5F5] font-bold text-base leading-snug">{educationData.university}</h4>
+                  <p className="text-[#A1A1AA] text-sm mt-0.5">{educationData.faculty}</p>
                   <p className="text-[#B6FF5C] text-xs font-medium mt-1">{educationData.status}</p>
                 </div>
               </div>
@@ -134,7 +136,7 @@ export default function Education() {
                   {educationData.coursework.map((course) => (
                     <span
                       key={course}
-                      className="text-xs px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.06] text-[#A1A1AA]"
+                      className="text-xs px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.06] text-[#A1A1AA] hover:border-white/15 hover:text-[#F5F5F5] transition-colors cursor-default"
                     >
                       {course}
                     </span>
@@ -160,7 +162,7 @@ export default function Education() {
 
             {/* Timeline */}
             <div className="relative">
-              <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-[#B6FF5C]/30 via-[#8B5CF6]/20 to-transparent" />
+              <div className="absolute left-5 top-2 bottom-4 w-px bg-gradient-to-b from-[#B6FF5C]/40 via-[#8B5CF6]/30 to-transparent" />
 
               <div className="space-y-5">
                 {activitiesData.map((item, i) => {
@@ -168,21 +170,24 @@ export default function Education() {
                   return (
                     <motion.div
                       key={item.title}
-                      initial="hidden"
-                      whileInView="visible"
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true, margin: '-40px' }}
-                      variants={fadeUp}
-                      custom={i + 2}
-                      className="relative pl-14"
+                      transition={{ duration: 0.5, delay: i * 0.12 + 0.1, ease: [0.22, 1, 0.36, 1] }}
+                      className="relative pl-14 group"
                     >
                       {/* Timeline dot */}
-                      <div className="absolute left-0 top-5 w-10 h-10 rounded-xl bg-[#141720] border border-white/[0.08] flex items-center justify-center z-10">
+                      <div className="absolute left-0 top-4 w-10 h-10 rounded-xl bg-[#141720] border border-white/[0.08] flex items-center justify-center z-10 group-hover:border-[#8B5CF6]/40 group-hover:bg-[#8B5CF6]/10 group-hover:scale-105 transition-all duration-300">
                         <Icon size={15} className="text-[#8B5CF6]" />
                       </div>
 
-                      <div className="glass-card rounded-xl p-5 border border-white/[0.08] hover:border-[#8B5CF6]/20 transition-all duration-300">
+                      <motion.div
+                        whileHover={{ y: -3 }}
+                        transition={{ duration: 0.2 }}
+                        className="glass-card rounded-xl p-5 border border-white/[0.08] hover:border-[#8B5CF6]/30 hover:shadow-[0_8px_25px_rgba(0,0,0,0.4),0_0_15px_rgba(139,92,246,0.1)] transition-all duration-300"
+                      >
                         <div className="flex items-start justify-between gap-2 mb-2">
-                          <h4 className="text-[#F5F5F5] font-semibold text-sm leading-snug">
+                          <h4 className="text-[#F5F5F5] font-semibold text-sm leading-snug group-hover:text-white transition-colors">
                             {item.title}
                           </h4>
                           <span className="text-xs text-[#A1A1AA] flex-shrink-0 font-medium">
@@ -197,13 +202,13 @@ export default function Education() {
                           {item.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="text-xs px-2 py-0.5 rounded bg-white/[0.03] border border-white/[0.06] text-[#A1A1AA]"
+                              className="text-xs px-2 py-0.5 rounded bg-white/[0.03] border border-white/[0.06] text-[#A1A1AA] hover:border-white/12 hover:text-[#F5F5F5] transition-colors"
                             >
                               {tag}
                             </span>
                           ))}
                         </div>
-                      </div>
+                      </motion.div>
                     </motion.div>
                   )
                 })}

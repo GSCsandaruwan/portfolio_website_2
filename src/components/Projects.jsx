@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
-import { ExternalLink, Eye } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
+import { projects } from '../data/projects'
+import { VenomButton } from '@/components/venom-button'
 
 function GithubIcon({ size = 16, className = '' }) {
   return (
@@ -8,16 +10,17 @@ function GithubIcon({ size = 16, className = '' }) {
     </svg>
   )
 }
-import { projects } from '../data/projects'
 
 const categoryColorMap = {
   lime: {
-    badge: 'bg-[#B6FF5C]/10 text-[#B6FF5C] border-[#B6FF5C]/20',
+    badge: 'bg-[#B6FF5C]/10 text-[#B6FF5C] border-[#B6FF5C]/25',
     glow: 'rgba(182,255,92,0.1)',
+    hoverBorder: 'hover:border-[#B6FF5C]/40',
   },
   purple: {
-    badge: 'bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/20',
+    badge: 'bg-[#8B5CF6]/10 text-[#8B5CF6] border-[#8B5CF6]/25',
     glow: 'rgba(139,92,246,0.1)',
+    hoverBorder: 'hover:border-[#8B5CF6]/40',
   },
 }
 
@@ -33,27 +36,28 @@ function ProjectCard({ project, index }) {
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 35, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
-      className="glass-card rounded-2xl border border-white/[0.08] overflow-hidden group hover:border-white/[0.14] transition-all duration-300 flex flex-col"
+      transition={{ duration: 0.6, delay: index * 0.14, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -6 }}
+      className={`glass-card rounded-2xl border border-white/[0.08] ${colors.hoverBorder} transition-all duration-300 flex flex-col hover:shadow-[0_15px_35px_rgba(0,0,0,0.5)]`}
       style={{
         boxShadow: `0 0 40px ${colors.glow}`,
       }}
     >
       {/* Project image / placeholder */}
-      <div className={`relative h-48 bg-gradient-to-br ${gradClass} overflow-hidden flex-shrink-0`}>
+      <div className={`relative h-48 bg-gradient-to-br ${gradClass} rounded-t-2xl overflow-hidden flex-shrink-0`}>
         {project.image ? (
           <img
             src={project.image}
             alt={`${project.title} screenshot`}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
             loading="lazy"
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-            <span className="text-3xl font-black text-gradient opacity-40 tracking-widest">
+            <span className="text-3xl font-black text-gradient opacity-40 tracking-widest group-hover:scale-110 transition-transform duration-500">
               {project.imagePlaceholder}
             </span>
             <span className="text-[#A1A1AA] text-xs">Project Preview</span>
@@ -61,21 +65,21 @@ function ProjectCard({ project, index }) {
         )}
         {/* Category badge */}
         <div className="absolute top-3 left-3">
-          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${colors.badge}`}>
+          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${colors.badge} backdrop-blur-md`}>
             {project.category}
           </span>
         </div>
         {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 backdrop-blur-xs">
           {project.github && project.github !== '#' && (
             <a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center hover:bg-[#B6FF5C]/20 hover:border-[#B6FF5C]/50 transition-all"
+              className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-[#B6FF5C] hover:text-[#08090D] hover:border-[#B6FF5C] hover:scale-110 transition-all duration-200"
               aria-label={`${project.title} GitHub repository`}
             >
-              <GithubIcon size={15} className="text-white" />
+              <GithubIcon size={16} />
             </a>
           )}
           {project.demo && project.demo !== '#' && (
@@ -83,10 +87,10 @@ function ProjectCard({ project, index }) {
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center hover:bg-[#B6FF5C]/20 hover:border-[#B6FF5C]/50 transition-all"
+              className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-[#B6FF5C] hover:text-[#08090D] hover:border-[#B6FF5C] hover:scale-110 transition-all duration-200"
               aria-label={`${project.title} live demo`}
             >
-              <ExternalLink size={15} className="text-white" />
+              <ExternalLink size={16} />
             </a>
           )}
         </div>
@@ -106,7 +110,7 @@ function ProjectCard({ project, index }) {
           {project.technologies.map((tech) => (
             <span
               key={tech}
-              className="px-2 py-0.5 rounded text-xs font-medium bg-white/[0.04] border border-white/[0.07] text-[#A1A1AA]"
+              className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-white/[0.04] border border-white/[0.07] text-[#A1A1AA] hover:border-white/15 hover:text-[#F5F5F5] transition-colors cursor-default"
             >
               {tech}
             </span>
@@ -114,17 +118,17 @@ function ProjectCard({ project, index }) {
         </div>
 
         {/* Footer links */}
-        <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
+        <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06] mt-auto">
           {project.github && (
             <a
               href={project.github}
               target={project.github !== '#' ? '_blank' : undefined}
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-[#A1A1AA] hover:text-[#B6FF5C] transition-colors font-medium"
-              aria-label="View source code"
+              className="flex items-center gap-1.5 text-xs text-[#A1A1AA] hover:text-[#B6FF5C] transition-colors font-medium group/link"
+              aria-label="View on GitHub"
             >
-              <GithubIcon size={13} />
-              {project.github === '#' ? 'Coming Soon' : 'Source Code'}
+              <GithubIcon size={13} className="group-hover/link:rotate-6 transition-transform" />
+              <span>{project.github === '#' ? 'Coming Soon' : 'View on GitHub'}</span>
             </a>
           )}
           {project.demo && (
@@ -132,11 +136,11 @@ function ProjectCard({ project, index }) {
               href={project.demo}
               target={project.demo !== '#' ? '_blank' : undefined}
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-[#A1A1AA] hover:text-[#B6FF5C] transition-colors font-medium ml-auto"
+              className="flex items-center gap-1.5 text-xs text-[#A1A1AA] hover:text-[#B6FF5C] transition-colors font-medium ml-auto group/link"
               aria-label="View live demo"
             >
-              <ExternalLink size={13} />
-              {project.demo === '#' ? 'Demo Soon' : 'Live Demo'}
+              <ExternalLink size={13} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+              <span>{project.demo === '#' ? 'Demo Soon' : 'Live Demo'}</span>
             </a>
           )}
         </div>
@@ -147,13 +151,13 @@ function ProjectCard({ project, index }) {
 
 export default function Projects() {
   return (
-    <section id="projects" className="section-padding bg-[#101219]">
-      <div className="container-custom">
+    <section id="projects" className="section-padding bg-[#101219] relative overflow-visible">
+      <div className="container-custom relative z-10 overflow-visible">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="mb-14"
         >
           <span className="section-label">What I&apos;ve Built</span>
@@ -171,23 +175,20 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTA - View more on GitHub */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-12 text-center"
+          transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-6 flex items-center justify-center overflow-visible relative z-20"
         >
-          <a
+          <VenomButton
             href="https://github.com/champikasandaruwan14-boop"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary inline-flex"
-          >
-            <Eye size={16} />
-            View More on GitHub
-          </a>
+            label="View more on GitHub"
+            className="w-full max-w-2xl mx-auto overflow-visible"
+            height={200}
+          />
         </motion.div>
       </div>
     </section>

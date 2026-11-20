@@ -22,7 +22,7 @@ export default function Navbar() {
     const sections = navLinks.map((l) => l.href.slice(1))
     for (let i = sections.length - 1; i >= 0; i--) {
       const el = document.getElementById(sections[i])
-      if (el && window.scrollY >= el.offsetTop - 120) {
+      if (el && window.scrollY >= el.offsetTop - 140) {
         setActiveSection(sections[i])
         break
       }
@@ -40,7 +40,9 @@ export default function Navbar() {
     } else {
       document.body.style.overflow = ''
     }
-    return () => { document.body.style.overflow = '' }
+    return () => {
+      document.body.style.overflow = ''
+    }
   }, [mobileOpen])
 
   const handleNavClick = (href) => {
@@ -54,10 +56,10 @@ export default function Navbar() {
       <motion.nav
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#08090D]/90 backdrop-blur-xl border-b border-white/[0.06] shadow-lg shadow-black/20'
+            ? 'bg-[#08090D]/85 backdrop-blur-xl border-b border-white/[0.06] shadow-xl shadow-black/30'
             : 'bg-transparent'
         }`}
         role="navigation"
@@ -67,40 +69,50 @@ export default function Navbar() {
           {/* Logo */}
           <a
             href="#home"
-            onClick={(e) => { e.preventDefault(); handleNavClick('#home') }}
-            className="flex items-center gap-2 group"
+            onClick={(e) => {
+              e.preventDefault()
+              handleNavClick('#home')
+            }}
+            className="flex items-center gap-2.5 group"
             aria-label="Homepage"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#B6FF5C] flex items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-lg bg-[#B6FF5C] flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(182,255,92,0.4)] transition-all duration-300">
               <span className="text-[#08090D] font-bold text-sm font-['Space_Grotesk']">CS</span>
             </div>
-            <span className="text-[#F5F5F5] font-semibold text-sm hidden sm:block tracking-wide">
-              G.S.C.<span className="text-[#B6FF5C]"> Sandaruwan</span>
+            <span className="text-[#F5F5F5] font-semibold text-sm hidden sm:block tracking-wide group-hover:text-[#F5F5F5] transition-colors">
+              G.S.C.<span className="text-[#B6FF5C] ml-1">Sandaruwan</span>
             </span>
           </a>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => { e.preventDefault(); handleNavClick(link.href) }}
-                className={`relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
-                  activeSection === link.href.slice(1)
-                    ? 'text-[#B6FF5C]'
-                    : 'text-[#A1A1AA] hover:text-[#F5F5F5]'
-                }`}
-              >
-                {link.label}
-                {activeSection === link.href.slice(1) && (
-                  <motion.span
-                    layoutId="nav-indicator"
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#B6FF5C] rounded-full"
-                  />
-                )}
-              </a>
-            ))}
+          <div className="hidden md:flex items-center gap-1 bg-white/[0.02] p-1 rounded-full border border-white/[0.05] backdrop-blur-sm">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.slice(1)
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleNavClick(link.href)
+                  }}
+                  className={`relative px-4 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 ${
+                    isActive
+                      ? 'text-[#08090D]'
+                      : 'text-[#A1A1AA] hover:text-[#F5F5F5] hover:bg-white/[0.04]'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 bg-[#B6FF5C] rounded-full -z-10 shadow-[0_0_15px_rgba(182,255,92,0.3)]"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  {link.label}
+                </a>
+              )
+            })}
           </div>
 
           {/* CTA */}
@@ -108,17 +120,17 @@ export default function Navbar() {
             <a
               href="/resume.pdf"
               download
-              className="btn-secondary text-xs py-2 px-4"
+              className="btn-secondary text-xs py-2 px-4 group hover:border-[#B6FF5C]/40 hover:shadow-[0_0_15px_rgba(182,255,92,0.15)]"
               aria-label="Download resume"
             >
-              <Download size={13} />
-              Resume
+              <Download size={13} className="group-hover:-translate-y-0.5 transition-transform" />
+              <span>Resume</span>
             </a>
           </div>
 
           {/* Hamburger */}
           <button
-            className="md:hidden p-2 rounded-lg text-[#A1A1AA] hover:text-[#F5F5F5] hover:bg-white/5 transition-colors"
+            className="md:hidden p-2 rounded-lg text-[#A1A1AA] hover:text-[#F5F5F5] hover:bg-white/5 transition-colors cursor-pointer"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
@@ -132,36 +144,42 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-0 z-40 bg-[#08090D]/98 backdrop-blur-xl flex flex-col pt-20 px-6"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-40 bg-[#08090D]/96 backdrop-blur-2xl flex flex-col pt-20 px-6"
           >
             <nav className="flex flex-col gap-2" aria-label="Mobile navigation">
-              {navLinks.map((link, i) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 + 0.1 }}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href) }}
-                  className={`py-3 px-4 text-lg font-medium rounded-lg transition-all ${
-                    activeSection === link.href.slice(1)
-                      ? 'text-[#B6FF5C] bg-[#B6FF5C]/10'
-                      : 'text-[#A1A1AA] hover:text-[#F5F5F5] hover:bg-white/5'
-                  }`}
-                >
-                  {link.label}
-                </motion.a>
-              ))}
+              {navLinks.map((link, i) => {
+                const isActive = activeSection === link.href.slice(1)
+                return (
+                  <motion.a
+                    key={link.href}
+                    href={link.href}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04 + 0.08, ease: [0.22, 1, 0.36, 1] }}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleNavClick(link.href)
+                    }}
+                    className={`py-3 px-4 text-base font-semibold rounded-xl transition-all ${
+                      isActive
+                        ? 'text-[#08090D] bg-[#B6FF5C] font-bold shadow-[0_0_15px_rgba(182,255,92,0.25)]'
+                        : 'text-[#A1A1AA] hover:text-[#F5F5F5] hover:bg-white/5'
+                    }`}
+                  >
+                    {link.label}
+                  </motion.a>
+                )
+              })}
               <motion.a
                 href="/resume.pdf"
                 download
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.05 + 0.1 }}
+                transition={{ delay: navLinks.length * 0.04 + 0.08, ease: [0.22, 1, 0.36, 1] }}
                 className="btn-primary mt-4 justify-center"
               >
                 <Download size={16} />
