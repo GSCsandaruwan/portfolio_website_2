@@ -30,7 +30,7 @@ const contactInfo = [
   {
     icon: GithubIcon,
     label: 'GitHub',
-    value: 'github.com/champikasandaruwan14-boop',
+    value: 'https://github.com/GSCsandaruwan',
     href: 'https://github.com/GSCsandaruwan',
   },
   {
