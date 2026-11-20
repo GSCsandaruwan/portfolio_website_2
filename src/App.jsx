@@ -8,6 +8,7 @@ import Education from './components/Education'
 import Services from './components/Services'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import MouseGlow from './components/MouseGlow'
 
 function App() {
   useEffect(() => {
@@ -16,9 +17,10 @@ function App() {
   }, [])
 
   return (
-    <div className="bg-[#08090D] min-h-screen">
+    <div className="bg-[#08090D] min-h-screen relative overflow-x-hidden">
+      <MouseGlow />
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <About />
         <Skills />

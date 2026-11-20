@@ -9,6 +9,7 @@ function GithubIcon({ size = 16, className = '' }) {
     </svg>
   )
 }
+
 function LinkedinIcon({ size = 16, className = '' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -17,11 +18,7 @@ function LinkedinIcon({ size = 16, className = '' }) {
   )
 }
 
-// ─── CONFIGURE EMAIL INTEGRATION ───────────────────────────────────────────
-// Option 1 — Formspree: https://formspree.io  → replace FORMSPREE_ID below
-// Option 2 — EmailJS or Resend: add your credentials here
 const FORMSPREE_ENDPOINT = '' // e.g. 'https://formspree.io/f/YOUR_FORM_ID'
-// ────────────────────────────────────────────────────────────────────────────
 
 const contactInfo = [
   {
@@ -45,11 +42,11 @@ const contactInfo = [
 ]
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 28 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.1, ease: 'easeOut' },
+    transition: { duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] },
   }),
 }
 
@@ -64,7 +61,7 @@ function InputField({ label, id, type = 'text', required, ...props }) {
         name={id}
         type={type}
         required={required}
-        className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-[#F5F5F5] text-sm placeholder-[#A1A1AA]/50 focus:outline-none focus:border-[#B6FF5C]/40 focus:bg-white/[0.05] transition-all duration-200"
+        className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-[#F5F5F5] text-sm placeholder-[#A1A1AA]/50 focus:outline-none focus:border-[#B6FF5C]/50 focus:bg-white/[0.06] focus:shadow-[0_0_15px_rgba(182,255,92,0.15)] transition-all duration-200"
         {...props}
       />
     </div>
@@ -74,7 +71,7 @@ function InputField({ label, id, type = 'text', required, ...props }) {
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [errors, setErrors] = useState({})
-  const [status, setStatus] = useState('idle') // idle | submitting | success | error | no-backend
+  const [status, setStatus] = useState('idle')
 
   const validate = () => {
     const e = {}
@@ -95,7 +92,10 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const v = validate()
-    if (Object.keys(v).length > 0) { setErrors(v); return }
+    if (Object.keys(v).length > 0) {
+      setErrors(v)
+      return
+    }
 
     if (!FORMSPREE_ENDPOINT) {
       setStatus('no-backend')
@@ -121,8 +121,8 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="section-padding bg-[#08090D]">
-      <div className="container-custom">
+    <section id="contact" className="section-padding bg-[#08090D] relative overflow-hidden">
+      <div className="container-custom relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -152,26 +152,28 @@ export default function Contact() {
             className="lg:col-span-2 space-y-4"
           >
             {contactInfo.map(({ icon: Icon, label, value, href }) => (
-              <a
+              <motion.a
                 key={label}
                 href={href}
                 target={href.startsWith('mailto') ? undefined : '_blank'}
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 glass-card rounded-xl p-4 border border-white/[0.08] hover:border-[#B6FF5C]/20 group transition-all duration-200"
+                whileHover={{ y: -3, scale: 1.01 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-4 glass-card rounded-2xl p-4 border border-white/[0.08] hover:border-[#B6FF5C]/35 hover:shadow-[0_8px_25px_rgba(0,0,0,0.4),0_0_15px_rgba(182,255,92,0.1)] group transition-all duration-300"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#B6FF5C]/8 border border-[#B6FF5C]/15 flex items-center justify-center group-hover:bg-[#B6FF5C]/15 transition-colors flex-shrink-0">
-                  <Icon size={16} className="text-[#B6FF5C]" />
+                <div className="w-11 h-11 rounded-xl bg-[#B6FF5C]/8 border border-[#B6FF5C]/15 flex items-center justify-center group-hover:bg-[#B6FF5C]/20 group-hover:border-[#B6FF5C]/40 group-hover:scale-105 transition-all duration-300 flex-shrink-0">
+                  <Icon size={18} className="text-[#B6FF5C]" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-xs text-[#A1A1AA] uppercase tracking-wider font-semibold">{label}</p>
-                  <p className="text-[#F5F5F5] text-sm font-medium truncate group-hover:text-[#B6FF5C] transition-colors">
+                  <p className="text-[#F5F5F5] text-sm font-medium truncate group-hover:text-white transition-colors">
                     {value}
                   </p>
                 </div>
-              </a>
+              </motion.a>
             ))}
 
-            <div className="glass-card rounded-xl p-5 border border-white/[0.08] mt-6">
+            <div className="glass-card rounded-2xl p-5 border border-white/[0.08] mt-6">
               <p className="text-[#A1A1AA] text-xs leading-relaxed">
                 Whether you&apos;re looking for an intern, a collaborator, or a freelancer — I&apos;d love to hear from you. I typically respond within 24–48 hours.
               </p>
@@ -190,7 +192,7 @@ export default function Contact() {
             <form
               onSubmit={handleSubmit}
               noValidate
-              className="glass-card rounded-2xl p-6 sm:p-8 border border-white/[0.08] space-y-5"
+              className="glass-card rounded-2xl p-6 sm:p-8 border border-white/[0.08] space-y-5 hover:border-white/12 transition-all duration-300"
             >
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
@@ -256,7 +258,7 @@ export default function Contact() {
                   onChange={handleChange}
                   aria-describedby={errors.message ? 'message-error' : undefined}
                   aria-invalid={!!errors.message}
-                  className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-[#F5F5F5] text-sm placeholder-[#A1A1AA]/50 focus:outline-none focus:border-[#B6FF5C]/40 focus:bg-white/[0.05] transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-[#F5F5F5] text-sm placeholder-[#A1A1AA]/50 focus:outline-none focus:border-[#B6FF5C]/50 focus:bg-white/[0.06] focus:shadow-[0_0_15px_rgba(182,255,92,0.15)] transition-all duration-200 resize-none"
                 />
                 {errors.message && (
                   <p id="message-error" className="text-xs text-red-400">{errors.message}</p>
@@ -270,7 +272,9 @@ export default function Contact() {
                   <p>
                     Email service not configured yet. To enable this form, add your Formspree endpoint in{' '}
                     <code className="bg-black/30 px-1 rounded">Contact.jsx</code> or contact me directly at{' '}
-                    <a href="mailto:champikasandaruwan14@gmail.com" className="underline">champikasandaruwan14@gmail.com</a>.
+                    <a href="mailto:champikasandaruwan14@gmail.com" className="underline font-medium hover:text-[#B6FF5C]">
+                      champikasandaruwan14@gmail.com
+                    </a>.
                   </p>
                 </div>
               )}
@@ -290,17 +294,17 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="btn-primary w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
+                className="btn-primary w-full justify-center group disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {status === 'submitting' ? (
                   <>
                     <span className="w-4 h-4 border-2 border-[#08090D]/30 border-t-[#08090D] rounded-full animate-spin" />
-                    Sending...
+                    <span>Sending...</span>
                   </>
                 ) : (
                   <>
-                    <Send size={15} />
-                    Send Message
+                    <Send size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <span>Send Message</span>
                   </>
                 )}
               </button>

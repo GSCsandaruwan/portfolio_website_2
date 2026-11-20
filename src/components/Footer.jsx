@@ -7,6 +7,7 @@ function GithubIcon({ size = 16, className = '' }) {
     </svg>
   )
 }
+
 function LinkedinIcon({ size = 16, className = '' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -41,23 +42,23 @@ export default function Footer() {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   return (
-    <footer className="bg-[#101219] border-t border-white/[0.06]">
-      <div className="container-custom py-12">
+    <footer className="bg-[#101219] border-t border-white/[0.06] relative overflow-hidden">
+      <div className="container-custom py-12 relative z-10">
         <div className="grid sm:grid-cols-3 gap-10 mb-10">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-[#B6FF5C] flex items-center justify-center">
-                <span className="text-[#08090D] font-bold text-sm">CS</span>
+            <div className="flex items-center gap-2.5 mb-4 group cursor-pointer" onClick={() => scrollTo('#home')}>
+              <div className="w-8 h-8 rounded-lg bg-[#B6FF5C] flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(182,255,92,0.4)] transition-all duration-300">
+                <span className="text-[#08090D] font-bold text-sm font-['Space_Grotesk']">CS</span>
               </div>
-              <span className="text-[#F5F5F5] font-semibold text-sm">
-                G.S.C.<span className="text-[#B6FF5C]"> Sandaruwan</span>
+              <span className="text-[#F5F5F5] font-semibold text-sm tracking-wide">
+                G.S.C.<span className="text-[#B6FF5C] ml-1">Sandaruwan</span>
               </span>
             </div>
-            <p className="text-[#A1A1AA] text-sm leading-relaxed mb-5">
+            <p className="text-[#A1A1AA] text-sm leading-relaxed mb-5 max-w-xs">
               IT Undergraduate passionate about building intelligent solutions through code.
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               {socialLinks.map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
@@ -65,9 +66,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-8 h-8 rounded-lg border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#A1A1AA] hover:text-[#B6FF5C] hover:border-[#B6FF5C]/30 hover:bg-[#B6FF5C]/5 transition-all duration-200"
+                  className="w-9 h-9 rounded-xl border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#A1A1AA] hover:text-[#B6FF5C] hover:border-[#B6FF5C]/30 hover:bg-[#B6FF5C]/8 hover:-translate-y-0.5 hover:shadow-[0_0_12px_rgba(182,255,92,0.15)] transition-all duration-200"
                 >
-                  <Icon size={14} />
+                  <Icon size={15} />
                 </a>
               ))}
             </div>
@@ -75,17 +76,18 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-[#F5F5F5] font-semibold text-sm mb-4 uppercase tracking-wider">
+            <h3 className="text-[#F5F5F5] font-semibold text-xs mb-4 uppercase tracking-widest">
               Quick Links
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <button
                     onClick={() => scrollTo(link.href)}
-                    className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors text-left"
+                    className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors text-left cursor-pointer flex items-center gap-1.5 group"
                   >
-                    {link.label}
+                    <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#B6FF5C] group-hover:scale-150 transition-all" />
+                    <span>{link.label}</span>
                   </button>
                 </li>
               ))}
@@ -94,23 +96,38 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-[#F5F5F5] font-semibold text-sm mb-4 uppercase tracking-wider">
-              Contact
+            <h3 className="text-[#F5F5F5] font-semibold text-xs mb-4 uppercase tracking-widest">
+              Connect
             </h3>
             <ul className="space-y-3">
               <li>
-                <a href="mailto:champikasandaruwan14@gmail.com" className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors">
+                <a
+                  href="mailto:champikasandaruwan14@gmail.com"
+                  className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors break-all"
+                >
                   champikasandaruwan14@gmail.com
                 </a>
               </li>
               <li>
-                <a href="https://github.com/champikasandaruwan14-boop" target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors">
-                  GitHub Profile
+                <a
+                  href="https://github.com/champikasandaruwan14-boop"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors flex items-center gap-2 group"
+                >
+                  <span>GitHub Profile</span>
+                  <span className="text-[#B6FF5C] text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">↗</span>
                 </a>
               </li>
               <li>
-                <a href="https://www.linkedin.com/in/champika-sandaruwan-2a6971371/" target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors">
-                  LinkedIn Profile
+                <a
+                  href="https://www.linkedin.com/in/champika-sandaruwan-2a6971371/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors flex items-center gap-2 group"
+                >
+                  <span>LinkedIn Profile</span>
+                  <span className="text-[#B6FF5C] text-xs opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">↗</span>
                 </a>
               </li>
             </ul>
@@ -132,9 +149,9 @@ export default function Footer() {
           <button
             onClick={scrollTop}
             aria-label="Back to top"
-            className="w-9 h-9 rounded-xl border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#A1A1AA] hover:text-[#B6FF5C] hover:border-[#B6FF5C]/30 hover:bg-[#B6FF5C]/5 transition-all duration-200"
+            className="w-10 h-10 rounded-xl border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#A1A1AA] hover:text-[#08090D] hover:bg-[#B6FF5C] hover:border-[#B6FF5C] hover:shadow-[0_0_15px_rgba(182,255,92,0.3)] hover:-translate-y-1 transition-all duration-200 cursor-pointer group"
           >
-            <ArrowUp size={15} />
+            <ArrowUp size={16} className="group-hover:-translate-y-0.5 transition-transform" />
           </button>
         </div>
       </div>

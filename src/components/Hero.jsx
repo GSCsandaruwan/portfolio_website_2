@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowDown, Mail, Download, ChevronRight } from 'lucide-react'
 
-// Brand SVG icons (lucide-react v1+ removed Github/Linkedin)
+// Brand SVG icons
 function GithubIcon({ size = 16, className = '' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -10,6 +10,7 @@ function GithubIcon({ size = 16, className = '' }) {
     </svg>
   )
 }
+
 function LinkedinIcon({ size = 16, className = '' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -36,15 +37,15 @@ function ParticleCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    const count = Math.min(60, Math.floor(canvas.width / 20))
+    const count = Math.min(50, Math.floor(canvas.width / 24))
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
         r: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.4 + 0.1,
+        opacity: Math.random() * 0.35 + 0.1,
       })
     }
 
@@ -52,14 +53,20 @@ function ParticleCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       // Grid lines
-      ctx.strokeStyle = 'rgba(255,255,255,0.03)'
+      ctx.strokeStyle = 'rgba(255,255,255,0.025)'
       ctx.lineWidth = 1
-      const gridSize = 60
+      const gridSize = 64
       for (let x = 0; x < canvas.width; x += gridSize) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(x, 0)
+        ctx.lineTo(x, canvas.height)
+        ctx.stroke()
       }
       for (let y = 0; y < canvas.height; y += gridSize) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(0, y)
+        ctx.lineTo(canvas.width, y)
+        ctx.stroke()
       }
 
       // Particles
@@ -83,11 +90,11 @@ function ParticleCanvas() {
           const dx = particles[i].x - particles[j].x
           const dy = particles[i].y - particles[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 100) {
+          if (dist < 90) {
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = `rgba(182,255,92,${0.08 * (1 - dist / 100)})`
+            ctx.strokeStyle = `rgba(182,255,92,${0.06 * (1 - dist / 90)})`
             ctx.lineWidth = 0.5
             ctx.stroke()
           }
@@ -122,7 +129,34 @@ const socialLinks = [
   { icon: Mail, label: 'Email', href: 'mailto:champikasandaruwan14@gmail.com' },
 ]
 
+const focusRoles = [
+  'Artificial Intelligence',
+  'Computer Vision',
+  'Software Development',
+  'Full-Stack Development',
+  'Emerging Technologies',
+]
+
 export default function Hero() {
+  const [focusIndex, setFocusIndex] = useState(0)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mediaQuery.matches)
+    const handler = (e) => setPrefersReducedMotion(e.matches)
+    mediaQuery.addEventListener('change', handler)
+
+    const interval = setInterval(() => {
+      setFocusIndex((prev) => (prev + 1) % focusRoles.length)
+    }, 2800)
+
+    return () => {
+      mediaQuery.removeEventListener('change', handler)
+      clearInterval(interval)
+    }
+  }, [])
+
   const scrollToAbout = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -138,7 +172,7 @@ export default function Hero() {
     >
       <ParticleCanvas />
 
-      {/* Radial glow */}
+      {/* Radial glow background lights */}
       <div
         className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
         style={{
@@ -147,9 +181,9 @@ export default function Hero() {
         aria-hidden="true"
       />
       <div
-        className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full pointer-events-none"
+        className="absolute top-1/2 right-0 w-[420px] h-[420px] rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%)',
         }}
         aria-hidden="true"
       />
@@ -162,7 +196,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#B6FF5C]/20 bg-[#B6FF5C]/5 text-[#B6FF5C] text-xs font-medium w-fit mb-6"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#B6FF5C] animate-pulse" />
@@ -171,9 +205,9 @@ export default function Hero() {
 
             {/* Title */}
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
               className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] tracking-tight text-[#F5F5F5] mb-5"
             >
               Building{' '}
@@ -186,8 +220,8 @@ export default function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-[#A1A1AA] text-base sm:text-lg leading-relaxed mb-8 max-w-lg"
+              transition={{ duration: 0.6, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              className="text-[#A1A1AA] text-base sm:text-lg leading-relaxed mb-6 max-w-lg"
             >
               I&apos;m an IT undergraduate passionate about software development, artificial
               intelligence, and computer vision. I enjoy transforming ideas into practical
@@ -198,8 +232,8 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
-              className="mb-8"
+              transition={{ duration: 0.5, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-6"
             >
               <p className="text-2xl font-bold text-[#F5F5F5]">
                 G.S.C. Sandaruwan
@@ -209,20 +243,58 @@ export default function Hero() {
               </p>
             </motion.div>
 
+            {/* Rotating FOCUS Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-8"
+            >
+              <div className="inline-flex flex-col gap-1.5 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md shadow-sm hover:border-[#B6FF5C]/30 transition-colors">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#B6FF5C] animate-pulse" />
+                  <span className="text-[11px] font-bold tracking-widest uppercase text-[#A1A1AA]">
+                    FOCUS
+                  </span>
+                </div>
+                <div className="h-7 overflow-hidden flex items-center min-w-[220px] sm:min-w-[270px]">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={focusIndex}
+                      initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -14 }}
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      className="text-base sm:text-lg font-semibold text-[#B6FF5C] tracking-wide whitespace-nowrap"
+                    >
+                      {focusRoles[focusIndex]}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.div>
+
             {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.46, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-wrap gap-3 mb-10"
             >
-              <button onClick={scrollToProjects} className="btn-primary">
-                Explore My Work
-                <ChevronRight size={16} />
+              <button
+                onClick={scrollToProjects}
+                className="btn-primary group"
+              >
+                <span>Explore My Work</span>
+                <ChevronRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
               </button>
-              <a href="/resume.pdf" download className="btn-secondary">
-                <Download size={16} />
-                Download CV
+              <a
+                href="/resume.pdf"
+                download
+                className="btn-secondary group"
+              >
+                <Download size={16} className="group-hover:-translate-y-0.5 transition-transform" />
+                <span>Download CV</span>
               </a>
             </motion.div>
 
@@ -230,7 +302,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.52, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center gap-4"
             >
               <span className="text-[#A1A1AA] text-xs font-medium tracking-wider uppercase">Follow</span>
@@ -243,7 +315,7 @@ export default function Hero() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="w-9 h-9 rounded-lg border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#A1A1AA] hover:text-[#B6FF5C] hover:border-[#B6FF5C]/30 hover:bg-[#B6FF5C]/5 transition-all duration-200"
+                    className="w-9 h-9 rounded-lg border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#A1A1AA] hover:text-[#B6FF5C] hover:border-[#B6FF5C]/40 hover:bg-[#B6FF5C]/10 hover:-translate-y-0.5 transition-all duration-200"
                   >
                     <Icon size={15} />
                   </a>
@@ -254,28 +326,34 @@ export default function Hero() {
 
           {/* Right — Profile Image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="hidden lg:flex justify-center items-center"
           >
             <div className="relative">
               {/* Glow ring */}
               <div
-                className="absolute inset-0 rounded-full blur-3xl opacity-20"
+                className="absolute inset-0 rounded-full blur-3xl opacity-25"
                 style={{ background: 'radial-gradient(circle, #B6FF5C 0%, #8B5CF6 100%)' }}
                 aria-hidden="true"
               />
-              {/* Decorative ring */}
-              <div className="absolute -inset-4 rounded-full border border-dashed border-[#B6FF5C]/20 animate-[spin_30s_linear_infinite]" aria-hidden="true" />
-              <div className="absolute -inset-8 rounded-full border border-dashed border-[#8B5CF6]/10 animate-[spin_45s_linear_infinite_reverse]" aria-hidden="true" />
+              {/* Decorative rings */}
+              <div
+                className="absolute -inset-4 rounded-full border border-dashed border-[#B6FF5C]/20 animate-[spin_30s_linear_infinite]"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute -inset-8 rounded-full border border-dashed border-[#8B5CF6]/15 animate-[spin_45s_linear_infinite_reverse]"
+                aria-hidden="true"
+              />
 
-              {/* Profile image placeholder */}
-              <div className="relative w-72 h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden border-2 border-[#B6FF5C]/30 glass-card animate-float">
-                {/* To add your photo: replace the div below with <img src="/images/profile.jpg" alt="G.S.C. Sandaruwan" className="w-full h-full object-cover object-top" /> */}
-                <img src="/images/profile.jpg"
-                     alt="G.S.C. Sandaruwan"
-                     className="w-full h-full object-cover object"
+              {/* Profile image container */}
+              <div className="relative w-72 h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden border-2 border-[#B6FF5C]/30 glass-card animate-float shadow-2xl shadow-black/50 group">
+                <img
+                  src="/images/profile.jpg"
+                  alt="G.S.C. Sandaruwan"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
 
@@ -283,18 +361,20 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [-4, 4, -4] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -left-16 top-1/4 glass-card rounded-xl px-4 py-3 border border-white/[0.08]"
+                whileHover={{ scale: 1.05 }}
+                className="absolute -left-14 top-1/4 glass-card rounded-xl px-4 py-3 border border-white/[0.08] shadow-lg shadow-black/40 hover:border-[#B6FF5C]/30 transition-colors"
               >
-                <p className="text-xs text-[#A1A1AA]">Focus Area</p>
-                <p className="text-sm font-semibold text-[#F5F5F5] mt-0.5">AI & CV</p>
+                <p className="text-[11px] font-semibold text-[#A1A1AA] uppercase tracking-wider">Focus Area</p>
+                <p className="text-sm font-semibold text-[#F5F5F5] mt-0.5">AI &amp; CV</p>
               </motion.div>
 
               <motion.div
                 animate={{ y: [4, -4, 4] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                className="absolute -right-16 bottom-1/4 glass-card rounded-xl px-4 py-3 border border-white/[0.08]"
+                whileHover={{ scale: 1.05 }}
+                className="absolute -right-14 bottom-1/4 glass-card rounded-xl px-4 py-3 border border-white/[0.08] shadow-lg shadow-black/40 hover:border-[#B6FF5C]/30 transition-colors"
               >
-                <p className="text-xs text-[#A1A1AA]">Status</p>
+                <p className="text-[11px] font-semibold text-[#A1A1AA] uppercase tracking-wider">Status</p>
                 <p className="text-sm font-semibold text-[#B6FF5C] mt-0.5">Available</p>
               </motion.div>
             </div>
@@ -306,14 +386,14 @@ export default function Hero() {
           onClick={scrollToAbout}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#A1A1AA] hover:text-[#B6FF5C] transition-colors group"
-          aria-label="Scroll down"
+          transition={{ delay: 1.1 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#A1A1AA] hover:text-[#B6FF5C] transition-colors group cursor-pointer"
+          aria-label="Scroll down to About section"
         >
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
+          <span className="text-xs tracking-widest uppercase font-medium">Scroll</span>
           <motion.div
             animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
           >
             <ArrowDown size={16} />
           </motion.div>
