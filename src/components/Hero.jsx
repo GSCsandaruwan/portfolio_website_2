@@ -124,7 +124,7 @@ function ParticleCanvas() {
 }
 
 const socialLinks = [
-  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com/GSCsandaruwan/portfolio_website_2' },
+  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com/GSCsandaruwan' },
   { icon: LinkedinIcon, label: 'LinkedIn', href: 'https://www.linkedin.com/in/champika-sandaruwan-2a6971371/' },
   { icon: Mail, label: 'Email', href: 'mailto:champikasandaruwan14@gmail.com' },
 ]
