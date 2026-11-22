@@ -12,7 +12,7 @@ import Footer from './components/Footer'
 function App() {
   useEffect(() => {
     // Update title dynamically
-    document.title = 'G.S.C. Sandaruwan | IT Undergraduate & Aspiring Software Developer'
+    document.title = 'G.S.C. sandaruwan | IT Undergraduate & Aspiring Software Developer'
   }, [])
 
   return (

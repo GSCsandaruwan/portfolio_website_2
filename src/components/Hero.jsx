@@ -117,7 +117,7 @@ function ParticleCanvas() {
 }
 
 const socialLinks = [
-  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com/champikasandaruwan14-boop' },
+  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com/GSCsandaruwan' },
   { icon: LinkedinIcon, label: 'LinkedIn', href: 'https://www.linkedin.com/in/champika-sandaruwan-2a6971371/' },
   { icon: Mail, label: 'Email', href: 'mailto:champikasandaruwan14@gmail.com' },
 ]
@@ -202,7 +202,7 @@ export default function Hero() {
               className="mb-8"
             >
               <p className="text-2xl font-bold text-[#F5F5F5]">
-                G.S.C. Sandaruwan
+                G.S.C. sandaruwan
               </p>
               <p className="text-[#B6FF5C] text-sm font-medium mt-1">
                 IT Undergraduate | Aspiring Software Developer
@@ -240,8 +240,8 @@ export default function Hero() {
                   <a
                     key={label}
                     href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target={href.startsWith('mailto') ? undefined : '_blank'}
+                    rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                     aria-label={label}
                     className="w-9 h-9 rounded-lg border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#A1A1AA] hover:text-[#B6FF5C] hover:border-[#B6FF5C]/30 hover:bg-[#B6FF5C]/5 transition-all duration-200"
                   >
@@ -272,10 +272,10 @@ export default function Hero() {
 
               {/* Profile image placeholder */}
               <div className="relative w-72 h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden border-2 border-[#B6FF5C]/30 glass-card animate-float">
-                {/* To add your photo: replace the div below with <img src="/images/profile.jpg" alt="G.S.C. Sandaruwan" className="w-full h-full object-cover object-top" /> */}
-                <img src="/images/profile.jpg"
-                     alt="G.S.C. Sandaruwan"
-                     className="w-full h-full object-cover object"
+                <img
+                  src="/images/profile.jpg"
+                  alt="G.S.C. sandaruwan"
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
 

@@ -180,7 +180,7 @@ export default function Projects() {
           className="mt-12 text-center"
         >
           <a
-            href="https://github.com/champikasandaruwan14-boop"
+            href="https://github.com/GSCsandaruwan"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary inline-flex"

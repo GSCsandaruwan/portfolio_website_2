@@ -75,7 +75,7 @@ export default function Navbar() {
               <span className="text-[#08090D] font-bold text-sm font-['Space_Grotesk']">CS</span>
             </div>
             <span className="text-[#F5F5F5] font-semibold text-sm hidden sm:block tracking-wide">
-              G.S.C.<span className="text-[#B6FF5C]"> Sandaruwan</span>
+              G.S.C.<span className="text-[#B6FF5C]"> sandaruwan</span>
             </span>
           </a>
 

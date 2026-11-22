@@ -73,7 +73,7 @@ export default function About() {
               className="space-y-4 text-[#A1A1AA] leading-relaxed text-base mb-8"
             >
               <p>
-                I&apos;m an Information Technology undergraduate at the{' '}
+                I&apos;m <span className="text-[#F5F5F5] font-semibold">Galle Singhachcharige Champika Sandharuwan</span> (known professionally as <span className="text-[#B6FF5C] font-medium">G.S.C. sandaruwan</span>), an Information Technology undergraduate at the{' '}
                 <span className="text-[#F5F5F5] font-medium">
                   University of Ruhuna
                 </span>

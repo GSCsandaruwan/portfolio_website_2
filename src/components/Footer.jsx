@@ -25,7 +25,7 @@ const navLinks = [
 ]
 
 const socialLinks = [
-  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com/champikasandaruwan14-boop' },
+  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com/GSCsandaruwan' },
   { icon: LinkedinIcon, label: 'LinkedIn', href: 'https://www.linkedin.com/in/champika-sandaruwan-2a6971371/' },
   { icon: Mail, label: 'Email', href: 'mailto:champikasandaruwan14@gmail.com' },
 ]
@@ -51,7 +51,7 @@ export default function Footer() {
                 <span className="text-[#08090D] font-bold text-sm">CS</span>
               </div>
               <span className="text-[#F5F5F5] font-semibold text-sm">
-                G.S.C.<span className="text-[#B6FF5C]"> Sandaruwan</span>
+                G.S.C.<span className="text-[#B6FF5C]"> sandaruwan</span>
               </span>
             </div>
             <p className="text-[#A1A1AA] text-sm leading-relaxed mb-5">
@@ -62,8 +62,8 @@ export default function Footer() {
                 <a
                   key={label}
                   href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={href.startsWith('mailto') ? undefined : '_blank'}
+                  rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                   aria-label={label}
                   className="w-8 h-8 rounded-lg border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-[#A1A1AA] hover:text-[#B6FF5C] hover:border-[#B6FF5C]/30 hover:bg-[#B6FF5C]/5 transition-all duration-200"
                 >
@@ -104,7 +104,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://github.com/champikasandaruwan14-boop" target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors">
+                <a href="https://github.com/GSCsandaruwan" target="_blank" rel="noopener noreferrer" className="text-[#A1A1AA] text-sm hover:text-[#B6FF5C] transition-colors">
                   GitHub Profile
                 </a>
               </li>
@@ -121,7 +121,7 @@ export default function Footer() {
         <div className="border-t border-white/[0.06] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
             <p className="text-[#A1A1AA] text-xs">
-              © {year} G.S.C. Sandaruwan. All rights reserved.
+              © {year} G.S.C. sandaruwan. All rights reserved.
             </p>
             <p className="text-[#A1A1AA]/60 text-xs mt-0.5">
               Designed &amp; Built with <span className="text-[#B6FF5C]">passion</span>.

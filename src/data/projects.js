@@ -37,8 +37,8 @@ export const projects = [
     technologies: ['React', 'Vite', 'Tailwind CSS', 'JavaScript', 'Framer Motion'],
     image: null,
     imagePlaceholder: 'WEB',
-    github: '#', // Replace with real URL
-    demo: '#',   // Replace with real URL
+    github: 'https://github.com/GSCsandaruwan/portfolio_website_2',
+    demo: 'https://portfolio-website-dxcx.vercel.app',
     featured: true,
   },
 ]

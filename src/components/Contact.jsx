@@ -33,13 +33,13 @@ const contactInfo = [
   {
     icon: GithubIcon,
     label: 'GitHub',
-    value: 'github.com/champikasandaruwan14-boop',
-    href: 'https://github.com/champikasandaruwan14-boop',
+    value: 'github.com/GSCsandaruwan',
+    href: 'https://github.com/GSCsandaruwan',
   },
   {
     icon: LinkedinIcon,
     label: 'LinkedIn',
-    value: 'linkedin.com/in/champika-sandaruwan',
+    value: 'linkedin.com/in/champika-sandaruwan-2a6971371',
     href: 'https://www.linkedin.com/in/champika-sandaruwan-2a6971371/',
   },
 ]
