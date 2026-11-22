@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowDown, Mail, Download, ChevronRight } from 'lucide-react'
+import { HeroWebSling } from '@/components/web-sling-button'
 
 // Brand SVG icons
 function GithubIcon({ size = 16, className = '' }) {
@@ -140,6 +141,8 @@ const focusRoles = [
 export default function Hero() {
   const [focusIndex, setFocusIndex] = useState(0)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const sectionRef = useRef(null)
+  const photoRef = useRef(null)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -167,10 +170,14 @@ export default function Hero() {
   return (
     <section
       id="home"
+      ref={sectionRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#08090D]"
       aria-label="Hero section"
     >
       <ParticleCanvas />
+
+      {/* Spider Web interactive layer across the entire Hero section */}
+      <HeroWebSling sectionRef={sectionRef} targetRef={photoRef} />
 
       {/* Radial glow background lights */}
       <div
@@ -349,12 +356,19 @@ export default function Hero() {
               />
 
               {/* Profile image container */}
-              <div className="relative w-72 h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden border-2 border-[#B6FF5C]/30 glass-card animate-float shadow-2xl shadow-black/50 group">
-                <img
-                  src="/images/profile.jpg"
-                  alt="G.S.C. Sandaruwan"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                />
+              <div className="animate-float">
+                <div
+                  ref={photoRef}
+                  className="relative w-72 h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden border-2 border-[#B6FF5C]/30 glass-card shadow-2xl shadow-black/50 group select-none cursor-pointer"
+                  style={{ willChange: 'transform' }}
+                >
+                  <img
+                    src="/images/profile.jpg"
+                    alt="G.S.C. Sandaruwan"
+                    draggable={false}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 pointer-events-none"
+                  />
+                </div>
               </div>
 
               {/* Floating badge cards */}
